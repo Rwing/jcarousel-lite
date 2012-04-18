@@ -9,7 +9,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  *
- * Version: 1.0.1
+ * Version: 1.0.1.2
  * Note: Requires jquery 1.2 or above from version 1.0.1
  */
 
@@ -219,13 +219,16 @@ $.fn.jCarouselLite = function(o) {
         scroll: 1,
 
         beforeStart: null,
-        afterEnd: null
+        afterEnd: null,
+        
+        containerTag: "ul",
+	itemTag: "li"
     }, o || {});
 
     return this.each(function() {                           // Returns the element collection. Chainable.
 
         var running = false, animCss=o.vertical?"top":"left", sizeCss=o.vertical?"height":"width";
-        var div = $(this), ul = $("ul", div), tLi = $("li", ul), tl = tLi.size(), v = o.visible;
+       var div = $(this), ul = div.find(o.containerTag).eq(0), tLi = ul.children(o.itemTag), tl = tLi.size(), v = o.visible;
 
         if(o.circular) {
             ul.prepend(tLi.slice(tl-v-1+1).clone())
@@ -239,7 +242,7 @@ $.fn.jCarouselLite = function(o) {
 			div.hovered = false;
 		});
 
-        var li = $("li", ul), itemLength = li.size(), curr = o.start;
+        var li = ul.children(o.itemTag), itemLength = li.size(), curr = o.start;
         div.css("visibility", "visible");
 
         li.css({overflow: "hidden", "float": o.vertical ? "none" : "left"});
